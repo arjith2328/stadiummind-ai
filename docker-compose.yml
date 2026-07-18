@@ -1,26 +1,19 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15-alpine
+  frontend:
+    build:
+      context: ./stadiummind-ai
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
     environment:
-      POSTGRES_USER: stadiumadmin
-      POSTGRES_PASSWORD: secretpassword
-      POSTGRES_DB: stadiummind
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U stadiumadmin"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    networks:
+      - stadium_network
 
   backend:
     build:
@@ -29,24 +22,11 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://stadiumadmin:secretpassword@postgres:5432/stadiummind
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_started
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - FRONTEND_URL=http://localhost:3000
+    networks:
+      - stadium_network
 
-  frontend:
-    build:
-      context: ./stadiummind-ai
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
-    depends_on:
-      - backend
-
-volumes:
-  postgres_data:
+networks:
+  stadium_network:
+    driver: bridge

@@ -1,102 +1,113 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Users, TrendingUp, AlertCircle } from "lucide-react";
-import { ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area } from 'recharts';
+import { TrendingUp, AlertTriangle, Layers } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import dynamic from 'next/dynamic';
+import { useCrowdAnalytics } from '@/hooks/useCrowdAnalytics';
 
-const densityData = [
-  { time: '16:00', density: 12, predicted: 15 },
-  { time: '17:00', density: 35, predicted: 40 },
-  { time: '18:00', density: 78, predicted: 80 },
-  { time: '19:00', density: 92, predicted: 95 },
-  { time: '20:00', density: 85, predicted: 90 },
-  { time: '21:00', density: 98, predicted: 100 }, // Peak
-  { time: '22:00', density: 45, predicted: 50 },
-];
+const CrowdChart = dynamic(() => import('@/components/charts/CrowdChart'), { 
+  ssr: false, 
+  loading: () => <div className="w-full h-full animate-pulse bg-muted/50 rounded-xl"></div> 
+});
 
 export default function CrowdPage() {
+  const { densityData } = useCrowdAnalytics();
+
   return (
-    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in duration-500">
+    <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500 pb-12">
       
-      {/* Breadcrumb & Header */}
+      {/* Header */}
       <div>
-        <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Dashboard / Crowd Analytics</p>
+        <Badge className="mb-2 bg-blue-500/10 text-blue-500 border-blue-500/20">PREDICTIVE EGRESS MODELING: ACTIVE</Badge>
         <h1 className="text-3xl font-heading font-bold mb-2 flex items-center gap-3">
-          <Users className="w-8 h-8 text-blue-500" />
-          Crowd Analytics
+          <Layers className="w-8 h-8 text-blue-500" />
+          Crowd Analytics & Digital Twin
         </h1>
-        <p className="text-muted-foreground">Real-time crowd density monitoring via YOLOv8 feeds and FAISS predictions.</p>
+        <p className="text-muted-foreground">Digital-twin simulations of mass egress routing for critical safety and flow optimization.</p>
       </div>
 
-      {/* Widgets */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        
-        {/* KPI Cards */}
-        <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-          <CardHeader>
-            <CardTitle>Global Density</CardTitle>
-            <CardDescription>Live stadium capacity</CardDescription>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="lg:col-span-1 border-destructive/20 bg-destructive/5 shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2 text-destructive">
+              <AlertTriangle className="w-4 h-4" /> High Risk Zone
+            </CardTitle>
           </CardHeader>
           <CardContent>
-             <div className="text-4xl font-bold text-red-500">92%</div>
-             <p className="text-sm text-muted-foreground mt-2">75,432 / 82,000 Fans Present</p>
-             <div className="w-full bg-muted rounded-full h-2 mt-4">
-               <div className="bg-red-500 h-2 rounded-full" style={{ width: '92%' }}></div>
-             </div>
+             <div className="text-2xl font-bold">South Concourse</div>
+             <p className="text-xs text-muted-foreground mt-1 mb-3">Model predicts crush conditions in 14 mins if current flow holds.</p>
+             <Button variant="destructive" size="sm" className="w-full text-xs h-7">Open Overflow Gates</Button>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-          <CardHeader>
-            <CardTitle>Peak Prediction</CardTitle>
-            <CardDescription>Estimated max capacity</CardDescription>
+        <Card className="lg:col-span-1 bg-card/50">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm">Peak Prediction</CardTitle>
           </CardHeader>
           <CardContent>
-             <div className="text-4xl font-bold text-orange-500 flex items-center gap-2">
-               21:00 <TrendingUp className="w-6 h-6" />
+             <div className="text-3xl font-bold text-orange-500 flex items-center gap-2">
+               21:00 <TrendingUp className="w-5 h-5" />
              </div>
-             <p className="text-sm text-muted-foreground mt-2">AI predicts 98% density during halftime.</p>
+             <p className="text-xs text-muted-foreground mt-1">Full capacity at Halftime.</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-blue-500/10 border-blue-500/20">
-          <CardHeader>
-            <CardTitle className="text-blue-500">AI Insight</CardTitle>
+        {/* Global Density Timeline */}
+        <Card className="lg:col-span-2 bg-card/50 backdrop-blur-sm border-border/50">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm">Live Egress Flow vs Predictive Model</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-             <div className="flex items-start gap-2">
-               <AlertCircle className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-               <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">South Concourse bottleneck detected.</p>
-             </div>
-             <p className="text-xs text-muted-foreground">Redirecting fan traffic via navigation app to East Concourse to balance load.</p>
+          <CardContent className="h-[120px] p-0 px-4" role="region" aria-label="Line and area chart displaying actual crowd density versus predicted egress modeling. Current peak predicted at 21:00.">
+            <CrowdChart data={densityData} />
           </CardContent>
         </Card>
-        
-        {/* Main Chart */}
-        <Card className="lg:col-span-3 bg-card/50 backdrop-blur-sm border-border/50">
-          <CardHeader>
-            <CardTitle>Density Timeline vs AI Prediction</CardTitle>
-            <CardDescription>Historical data vs FAISS generated forecasts</CardDescription>
-          </CardHeader>
-          <CardContent className="h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={densityData} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
-                <CartesianGrid stroke="#ccc" strokeDasharray="3 3" opacity={0.2} />
-                <XAxis dataKey="time" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}%`} />
-                <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--background))', borderColor: 'hsl(var(--border))' }} />
-                
-                {/* AI Prediction Area */}
-                <Area type="monotone" dataKey="predicted" fill="#3b82f6" fillOpacity={0.1} stroke="none" />
-                
-                {/* Actual Density Line */}
-                <Line type="monotone" dataKey="density" stroke="#3b82f6" strokeWidth={4} dot={{ r: 4 }} activeDot={{ r: 8 }} />
-              </ComposedChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
       </div>
+
+      {/* Segmented Concourse Analysis */}
+      <Card className="bg-card/50">
+        <CardHeader>
+          <CardTitle>Concourse Egress Modeling</CardTitle>
+          <CardDescription>Zone-by-zone breakdown of predicted vs actual load capacity</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            
+            <div className="space-y-2">
+              <div className="flex justify-between items-end">
+                <span className="font-semibold text-sm">North Concourse (Gate A & B)</span>
+                <span className="text-xs font-mono">Actual: 42% | Predicted: 45%</span>
+              </div>
+              <div className="w-full bg-muted rounded-full h-2">
+                <div className="bg-green-500 h-2 rounded-full" style={{ width: '42%' }}></div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-end">
+                <span className="font-semibold text-sm">East Concourse (Gate C)</span>
+                <span className="text-xs font-mono text-orange-500">Actual: 78% | Predicted: 70%</span>
+              </div>
+              <div className="w-full bg-muted rounded-full h-2">
+                <div className="bg-orange-500 h-2 rounded-full" style={{ width: '78%' }}></div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-end">
+                <span className="font-semibold text-sm">South Concourse (Gate D & E)</span>
+                <span className="text-xs font-mono text-destructive font-bold">Actual: 95% | Predicted: 85%</span>
+              </div>
+              <div className="w-full bg-muted rounded-full h-2">
+                <div className="bg-destructive h-2 rounded-full" style={{ width: '95%' }}></div>
+              </div>
+            </div>
+
+          </div>
+        </CardContent>
+      </Card>
+
     </div>
   );
 }

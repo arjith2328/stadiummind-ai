@@ -3,11 +3,8 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.security.middleware import SecurityHeadersMiddleware, RateLimitMiddleware
-import logging
-
-# Configure basic logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from app.core.logger import logger
+from app.api.v1.router import api_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -19,8 +16,8 @@ app = FastAPI(
 # GLOBAL EXCEPTION HANDLER
 # ---------------------------------------------------------
 @app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    logger.error(f"Unhandled Exception on {request.url}: {exc}")
+async def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    logger.error(f"Unhandled Exception on {request.url}: {exc}", exc_info=True)
     return JSONResponse(
         status_code=500,
         content={"detail": "Internal Server Error. Our engineers have been notified."},
@@ -29,22 +26,24 @@ async def global_exception_handler(request: Request, exc: Exception):
 # ---------------------------------------------------------
 # MIDDLEWARE STACK
 # ---------------------------------------------------------
-# 1. Security Headers (OWASP)
 app.add_middleware(SecurityHeadersMiddleware)
-# 2. Rate Limiting (DDoS protection)
 app.add_middleware(RateLimitMiddleware)
-# 3. CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict to strictly frontend URLs
+    allow_origins=[settings.FRONTEND_URL], # Restricted to frontend
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 # ---------------------------------------------------------
-# HEALTH ROUTE
+# ROUTER REGISTRATION
 # ---------------------------------------------------------
+app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# Retain original root health check for backwards compatibility if needed
 @app.get("/health/live")
-async def health_check():
+async def health_check_root():
+    logger.info("Health check endpoint accessed")
     return {"status": "ok", "message": "StadiumMind AI API is highly secure and running."}
+

@@ -3,8 +3,8 @@ from app.core.config import settings
 from app.ai.vector_store import vector_store_manager
 from app.ai.prompts import GENERAL_RAG_PROMPT
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.schema.runnable import RunnablePassthrough
-from langchain.schema.output_parser import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
 
 logger = logging.getLogger(__name__)
 
