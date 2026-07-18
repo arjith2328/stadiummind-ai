@@ -1,0 +1,12 @@
+{
+  "name": "stadiummind-ai-root",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:frontend": "cd stadiummind-ai && npm run dev",
+    "dev:backend": "cd backend && .\\venv\\Scripts\\activate && uvicorn app.main:app --reload",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
