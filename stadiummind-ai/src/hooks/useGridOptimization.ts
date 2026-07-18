@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { EnergyData, WasteData } from '@/types';
 
 /**
  * Custom hook for Sustainability and Grid Optimization data metrics.
@@ -7,7 +8,7 @@ import { useMemo } from 'react';
  * 
  * @returns {object} Memoized energy and waste data arrays.
  */
-export function useGridOptimization() {
+export function useGridOptimization(): { wasteData: WasteData[]; energyData: EnergyData[] } {
   const wasteData = useMemo(() => [
     { name: 'Recycled', value: 65, color: '#22c55e' },
     { name: 'Compost', value: 25, color: '#eab308' },

@@ -3,7 +3,18 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import React from 'react';
 import { EnergyData } from '@/types';
 
-export default function EnergyAreaChart({ data }: { data: EnergyData[] }) {
+/**
+ * Props for the EnergyAreaChart component.
+ */
+export interface EnergyAreaChartProps {
+  /** The energy metrics array for the chart. */
+  data: EnergyData[];
+}
+
+/**
+ * Renders an area chart illustrating stadium energy grid usage vs AI load shedding.
+ */
+export default function EnergyAreaChart({ data }: EnergyAreaChartProps) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>

@@ -5,6 +5,12 @@ import { ArrowRight, Map, ShieldAlert, Sparkles, Utensils } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+/**
+ * Landing Page Component
+ * 
+ * Renders the introductory marketing page with Framer Motion animations.
+ * Provides entry points to the Fan Experience and Organizer Dashboard.
+ */
 export default function LandingPage() {
   const containerVariants = {
     hidden: { opacity: 0 },

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { WaitData } from '@/types';
 
 /**
  * Custom hook to encapsulate Food Vendor Wait Times and Dynamic Pricing.
@@ -8,7 +9,7 @@ import { useMemo } from 'react';
  * 
  * @returns {object} Memoized array of vendor statistics.
  */
-export function useDynamicPricing() {
+export function useDynamicPricing(): { waitData: WaitData[] } {
   const waitData = useMemo(() => [
     { vendor: 'Burger King', wait: 15, color: '#f59e0b', discount: 0 },
     { vendor: 'Pizza Hut', wait: 8, color: '#22c55e', discount: 5 },

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { DensityData } from '@/types';
 
 /**
  * Custom hook to encapsulate Crowd Analytics data fetching and state management.
@@ -8,7 +9,7 @@ import { useMemo } from 'react';
  * 
  * @returns {object} The memoized crowd density timeseries data.
  */
-export function useCrowdAnalytics() {
+export function useCrowdAnalytics(): { densityData: DensityData[] } {
   const densityData = useMemo(() => [
     { time: '16:00', density: 12, predicted: 15 },
     { time: '17:00', density: 35, predicted: 40 },

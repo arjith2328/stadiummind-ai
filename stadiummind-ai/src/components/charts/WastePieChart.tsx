@@ -3,7 +3,18 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import React from 'react';
 import { WasteData } from '@/types';
 
-export default function WastePieChart({ data }: { data: WasteData[] }) {
+/**
+ * Props for the WastePieChart component.
+ */
+export interface WastePieChartProps {
+  /** The waste diversion metrics. */
+  data: WasteData[];
+}
+
+/**
+ * Renders a pie chart demonstrating the stadium's waste diversion rates.
+ */
+export default function WastePieChart({ data }: WastePieChartProps) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart>

@@ -3,7 +3,18 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import React from 'react';
 import { WaitData } from '@/types';
 
-export default function FoodWaitChart({ data }: { data: WaitData[] }) {
+/**
+ * Props for the FoodWaitChart component.
+ */
+export interface FoodWaitChartProps {
+  /** The vendor wait times data to display. */
+  data: WaitData[];
+}
+
+/**
+ * Renders a vertical bar chart displaying current food vendor wait times.
+ */
+export default function FoodWaitChart({ data }: FoodWaitChartProps) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} margin={{ top: 10, right: 30, left: -20, bottom: 0 }} layout="vertical">

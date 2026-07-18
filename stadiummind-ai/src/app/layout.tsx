@@ -12,6 +12,12 @@ export const metadata: Metadata = {
   description: "The world's most advanced smart stadium platform.",
 };
 
+/**
+ * Root Layout Component
+ * 
+ * Sets up the HTML skeleton, global fonts, theme providers, and toast notifications.
+ * Wraps all application routes.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -5,7 +5,7 @@ interface UseApiResult<T> {
   data: T | null;
   loading: boolean;
   error: ApiError | null;
-  execute: () => Promise<void>;
+  execute: (overrideOptions?: RequestInit) => Promise<void>;
 }
 
 /**
@@ -13,26 +13,26 @@ interface UseApiResult<T> {
  * Implements DRY principles by abstracting loading and error state management.
  *
  * @param endpoint - The API endpoint to fetch
- * @param options - Fetch options
+ * @param defaultOptions - Default fetch options
  * @returns An object containing data, loading state, error state, and the execute function.
  */
-export function useApi<T>(endpoint: string, options: RequestInit = {}): UseApiResult<T> {
+export function useApi<T>(endpoint: string, defaultOptions: RequestInit = {}): UseApiResult<T> {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<ApiError | null>(null);
 
-  const execute = useCallback(async () => {
+  const execute = useCallback(async (overrideOptions?: RequestInit) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await apiFetch<T>(endpoint, options);
+      const result = await apiFetch<T>(endpoint, { ...defaultOptions, ...overrideOptions });
       setData(result);
     } catch (err) {
       setError(err instanceof ApiError ? err : new ApiError('Unknown error', 500));
     } finally {
       setLoading(false);
     }
-  }, [endpoint, options]);
+  }, [endpoint]); // Excluding defaultOptions to avoid infinite re-renders if not memoized
 
   return { data, loading, error, execute };
 }

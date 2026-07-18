@@ -3,7 +3,18 @@ import { ComposedChart, Line, CartesianGrid, Tooltip, ResponsiveContainer, Area 
 import React from 'react';
 import { DensityData } from '@/types';
 
-export default function CrowdChart({ data }: { data: DensityData[] }) {
+/**
+ * Props for the CrowdChart component.
+ */
+export interface CrowdChartProps {
+  /** The density timeseries data to render. */
+  data: DensityData[];
+}
+
+/**
+ * Renders a composed area/line chart predicting and tracking crowd density.
+ */
+export default function CrowdChart({ data }: CrowdChartProps) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart data={data}>

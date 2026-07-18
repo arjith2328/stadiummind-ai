@@ -1,6 +1,7 @@
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
 import time
+from typing import Dict, Tuple
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     """
@@ -20,7 +21,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
     In-memory rate limiter. In a true multi-node production deployment, 
     this logic would point to a Redis cache store.
     """
-    _rate_limit_records = {}
+    _rate_limit_records: Dict[str, Tuple[float, int]] = {}
 
     async def dispatch(self, request: Request, call_next) -> Response:
         client_ip = request.client.host if request.client else "unknown"
