@@ -44,6 +44,7 @@ export default function AccessibilityPage() {
               </div>
               <button 
                 onClick={() => setHighContrast(!highContrast)}
+                aria-label="Toggle high contrast mode"
                 className={`w-12 h-6 rounded-full transition-colors relative ${highContrast ? 'bg-primary' : 'bg-muted-foreground/30'}`}
               >
                 <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${highContrast ? 'left-7' : 'left-1'}`}></div>
@@ -60,6 +61,7 @@ export default function AccessibilityPage() {
               </div>
               <button 
                 onClick={() => setVoiceGuidance(!voiceGuidance)}
+                aria-label="Toggle voice guidance"
                 className={`w-12 h-6 rounded-full transition-colors relative ${voiceGuidance ? 'bg-primary' : 'bg-muted-foreground/30'}`}
               >
                 <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${voiceGuidance ? 'left-7' : 'left-1'}`}></div>
@@ -76,6 +78,7 @@ export default function AccessibilityPage() {
               </div>
               <button 
                 onClick={() => setWheelchair(!wheelchair)}
+                aria-label="Toggle wheelchair routing"
                 className={`w-12 h-6 rounded-full transition-colors relative ${wheelchair ? 'bg-primary' : 'bg-muted-foreground/30'}`}
               >
                 <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${wheelchair ? 'left-7' : 'left-1'}`}></div>

@@ -81,8 +81,8 @@ export default function SettingsPage() {
                   <h3 className="font-medium">Food & Beverage Promos</h3>
                   <p className="text-xs text-muted-foreground">Wait time drops and discounts</p>
                 </div>
-                <button className="w-12 h-6 rounded-full bg-muted-foreground/30 relative">
-                  <div className="absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform"></div>
+                <button aria-label="Toggle setting" className="w-12 h-6 rounded-full bg-muted-foreground/30 relative">
+                  <div className="w-5 h-5 rounded-full bg-background absolute left-0.5 top-0.5 shadow-sm" />
                 </button>
               </div>
 
