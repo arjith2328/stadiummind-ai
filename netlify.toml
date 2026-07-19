@@ -1,0 +1,4 @@
+[build]
+  base = "stadiummind-ai"
+  command = "npm run build"
+  publish = ".next"
