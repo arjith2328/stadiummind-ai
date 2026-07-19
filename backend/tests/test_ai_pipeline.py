@@ -1,4 +1,3 @@
-import pytest
 from app.ai.vector_store import vector_store_manager
 
 def test_vector_store_singleton():
