@@ -21,17 +21,17 @@ class BaseRepository(Generic[ModelType]):
         """
         self.db = db_session
 
-    async def get(self, id: int) -> Optional[ModelType]:
+    async def get(self, entity_id: int) -> Optional[ModelType]:
         """
         Retrieves a single entity by its ID.
         
         Args:
-            id (int): The unique identifier of the entity.
+            entity_id (int): The unique identifier of the entity.
             
         Returns:
             Optional[ModelType]: The entity if found, else None.
         """
-        pass
+        raise NotImplementedError("Subclasses must implement this method")
 
     async def get_multi(self, skip: int = 0, limit: int = 100) -> List[ModelType]:
         """
@@ -44,4 +44,4 @@ class BaseRepository(Generic[ModelType]):
         Returns:
             List[ModelType]: A list of retrieved entities.
         """
-        pass
+        raise NotImplementedError("Subclasses must implement this method")

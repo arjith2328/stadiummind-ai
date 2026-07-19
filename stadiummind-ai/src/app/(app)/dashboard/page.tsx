@@ -1,7 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShieldAlert, Zap, TrendingUp, Users, MapPin, Search, Plus } from "lucide-react";
+import { MapPin, Search, Plus } from "lucide-react";
+import { AIAnomalyTicker } from "@/components/dashboard/AIAnomalyTicker";
+import { QuickKPIOverview } from "@/components/dashboard/QuickKPIOverview";
 
 export default function Dashboard() {
   return (
@@ -21,55 +23,10 @@ export default function Dashboard() {
       </div>
 
       {/* AI Anomaly Ticker */}
-      <Card className="bg-destructive/5 border-destructive/20 border-l-4 border-l-destructive shadow-sm" aria-live="assertive" role="alert">
-        <CardContent className="p-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <ShieldAlert className="w-5 h-5 text-destructive animate-pulse" aria-hidden="true" />
-            <div>
-              <p className="font-semibold text-sm">AI Anomaly Detected</p>
-              <p className="text-xs text-muted-foreground">Gate C egress rate is 15% slower than modeled. Potential bottleneck forming.</p>
-            </div>
-          </div>
-          <Button variant="destructive" size="sm">Reroute Traffic</Button>
-        </CardContent>
-      </Card>
+      <AIAnomalyTicker />
 
       {/* Quick KPI Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-6">
-            <p className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2">
-              <Users className="w-4 h-4 text-primary" /> Stadium Fill
-            </p>
-            <div className="text-3xl font-bold">84%</div>
-            <p className="text-xs text-green-500 flex items-center mt-1">
-              <TrendingUp className="w-3 h-3 mr-1" /> +2% vs Baseline
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <p className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2">
-              <Zap className="w-4 h-4 text-yellow-500" /> Grid Load
-            </p>
-            <div className="text-3xl font-bold">12.4 MW</div>
-            <p className="text-xs text-muted-foreground mt-1">AI shedding active (-1.2 MW)</p>
-          </CardContent>
-        </Card>
-        <Card className="md:col-span-2 bg-card/50 backdrop-blur-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
-            <MapPin className="w-24 h-24" />
-          </div>
-          <CardContent className="p-6 relative z-10 flex flex-col justify-center h-full">
-            <p className="text-sm font-medium text-muted-foreground mb-1">Active Event</p>
-            <h3 className="text-xl font-bold font-heading">Argentina vs. France</h3>
-            <div className="flex gap-2 mt-3">
-              <Badge variant="secondary">Match: Half-time</Badge>
-              <Badge variant="secondary">Weather: Clear Roof Open</Badge>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <QuickKPIOverview />
 
       {/* Smart Modules Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" role="region" aria-label="Smart Modules Configuration">

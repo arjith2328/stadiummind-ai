@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 class LLMServiceInterface(ABC):
     """
@@ -10,7 +10,7 @@ class LLMServiceInterface(ABC):
     """
     
     @abstractmethod
-    async def generate_response(self, prompt: str, context: Dict[str, Any] = None) -> str:
+    async def generate_response(self, prompt: str, context: Optional[Dict[str, Any]] = None) -> str:
         """
         Generates a textual response based on the provided prompt and context.
         
@@ -39,7 +39,7 @@ class GeminiLLMService(LLMServiceInterface):
         self.api_key = api_key
         # Initialize Google GenAI client here
 
-    async def generate_response(self, prompt: str, context: Dict[str, Any] = None) -> str:
+    async def generate_response(self, prompt: str, context: Optional[Dict[str, Any]] = None) -> str:
         """
         Executes the prompt against the Gemini inference endpoint.
         

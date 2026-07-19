@@ -1,13 +1,13 @@
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
 import time
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Callable, Awaitable
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     """
     Applies strict OWASP security headers to every response, equivalent to Helmet.js.
     """
-    async def dispatch(self, request: Request, call_next) -> Response:
+    async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
@@ -23,7 +23,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
     """
     _rate_limit_records: Dict[str, Tuple[float, int]] = {}
 
-    async def dispatch(self, request: Request, call_next) -> Response:
+    async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
         client_ip = request.client.host if request.client else "unknown"
         current_time = time.time()
         

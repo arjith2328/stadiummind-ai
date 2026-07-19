@@ -5,6 +5,8 @@ from app.ai.prompts import GENERAL_RAG_PROMPT
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
+from langchain_core.documents import Document
+from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +17,7 @@ llm = ChatGoogleGenerativeAI(
     google_api_key=settings.GEMINI_API_KEY
 )
 
-def format_docs(docs):
+def format_docs(docs: List[Document]) -> str:
     """Formats retrieved context, truncating if necessary to protect context window limit/costs."""
     concatenated = "\n\n".join(doc.page_content for doc in docs)
     # Truncate to a safe token limit approximation (e.g., 8000 chars)

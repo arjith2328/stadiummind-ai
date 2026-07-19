@@ -32,6 +32,7 @@ export function useApi<T>(endpoint: string, defaultOptions: RequestInit = {}): U
     } finally {
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endpoint]); // Excluding defaultOptions to avoid infinite re-renders if not memoized
 
   return { data, loading, error, execute };

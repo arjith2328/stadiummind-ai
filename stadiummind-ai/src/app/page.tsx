@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Map, ShieldAlert, Sparkles, Utensils } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { FeatureCard } from "@/components/FeatureCard";
 
 /**
  * Landing Page Component
@@ -85,29 +86,27 @@ export default function LandingPage() {
           variants={containerVariants}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 text-left w-full"
         >
-          <motion.div variants={itemVariants} className="p-6 rounded-2xl bg-card border shadow-sm flex flex-col" role="region" aria-labelledby="nav-title">
-            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-4" aria-hidden="true">
-              <Map className="w-6 h-6" />
-            </div>
-            <h3 id="nav-title" className="font-heading font-semibold text-lg mb-2">Smart Navigation</h3>
-            <p className="text-muted-foreground text-sm">Step-by-step AR routing to your seat, accounting for crowds and accessibility needs.</p>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="p-6 rounded-2xl bg-card border shadow-sm flex flex-col" role="region" aria-labelledby="food-title">
-            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-4" aria-hidden="true">
-              <Utensils className="w-6 h-6" />
-            </div>
-            <h3 id="food-title" className="font-heading font-semibold text-lg mb-2">AI Food Queues</h3>
-            <p className="text-muted-foreground text-sm">Predictive wait times for every vendor. Let AI find you the fastest hot dog in the stadium.</p>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="p-6 rounded-2xl bg-card border shadow-sm flex flex-col">
-            <div className="w-12 h-12 rounded-lg bg-destructive/10 flex items-center justify-center text-destructive mb-4">
-              <ShieldAlert className="w-6 h-6" />
-            </div>
-            <h3 className="font-heading font-semibold text-lg mb-2">Instant Emergency</h3>
-            <p className="text-muted-foreground text-sm">One-slide SOS alerts routing the nearest medical volunteer directly to your GPS location.</p>
-          </motion.div>
+          <FeatureCard
+            id="nav-title"
+            title="Smart Navigation"
+            description="Step-by-step AR routing to your seat, accounting for crowds and accessibility needs."
+            icon={<Map className="w-6 h-6" />}
+            itemVariants={itemVariants}
+          />
+          <FeatureCard
+            id="food-title"
+            title="AI Food Queues"
+            description="Predictive wait times for every vendor. Let AI find you the fastest hot dog in the stadium."
+            icon={<Utensils className="w-6 h-6" />}
+            itemVariants={itemVariants}
+          />
+          <FeatureCard
+            title="Instant Emergency"
+            description="One-slide SOS alerts routing the nearest medical volunteer directly to your GPS location."
+            icon={<ShieldAlert className="w-6 h-6" />}
+            iconClassName="bg-destructive/10 text-destructive"
+            itemVariants={itemVariants}
+          />
         </motion.div>
       </motion.main>
     </div>
